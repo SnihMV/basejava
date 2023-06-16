@@ -5,35 +5,45 @@ import java.util.Objects;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int size = 0;
+    int size;
 
     void clear() {
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
         size = 0;
     }
 
     void save(Resume r) {
-        if (size < storage.length && getIndex(r.uuid) == -1)
-            storage[size++] = r;
+        if (size == storage.length) {
+            System.err.println("Can't save this resume due to the storage is full");
+            return;
+        }
+        if (getIndex(r.uuid) > -1) {
+            System.err.println("Resume with the same uuid is already contained in the storage");
+            return;
+        }
+        storage[size++] = r;
     }
 
     Resume get(String uuid) {
-        int i = getIndex(uuid);
-        return i != -1 ? storage[i] : null;
+        int index = getIndex(uuid);
+        return index > -1 ? storage[index] : null;
     }
 
     void delete(String uuid) {
-        int i = getIndex(uuid);
-        if (i != -1)
-            System.arraycopy(storage, i + 1, storage, i, --size - i);
+        int index = getIndex(uuid);
+        if (index > -1)
+            System.arraycopy(storage, index + 1, storage, index, --size - index);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] copied = new Resume[size];
-        System.arraycopy(storage, 0, copied, 0, size);
-        return copied;
+        Resume[] allResumes = new Resume[size];
+        System.arraycopy(storage, 0, allResumes, 0, size);
+        return allResumes;
     }
 
     int size() {
@@ -41,15 +51,10 @@ public class ArrayStorage {
     }
 
     private int getIndex(String uuid) {
-        if (!isEmpty())
-            for (int i = 0; i < size; i++) {
-                if (Objects.equals(storage[i].uuid, uuid))
-                    return i;
-            }
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(storage[i].uuid, uuid))
+                return i;
+        }
         return -1;
-    }
-
-    private boolean isEmpty() {
-        return size == 0;
     }
 }
