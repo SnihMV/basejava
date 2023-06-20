@@ -2,13 +2,15 @@ package ru.basejava.webapp.storage;
 
 import ru.basejava.webapp.model.Resume;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private Resume[] storage = new Resume[10_000];
+public class ArrayStorage implements Storage {
+    private static final int STORAGE_LIMIT = 10_000;
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
@@ -26,7 +28,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size == storage.length) {
+        if (size == STORAGE_LIMIT) {
             System.err.println("Can't save this resume due to the storage is full");
             return;
         }
@@ -52,9 +54,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] allResumes = new Resume[size];
-        System.arraycopy(storage, 0, allResumes, 0, size);
-        return allResumes;
+        return Arrays.copyOfRange(storage,0,size);
     }
 
     public int size() {
