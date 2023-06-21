@@ -1,5 +1,8 @@
 package ru.basejava.webapp.storage;
 
+import ru.basejava.webapp.exception.AlreadyExistStorageException;
+import ru.basejava.webapp.exception.NotExistStorageException;
+import ru.basejava.webapp.exception.StorageException;
 import ru.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -23,7 +26,9 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        return index >= 0 ? storage[index] : null;
+        if (index < 0)
+            throw new NotExistStorageException(uuid);
+        return storage[index];
     }
 
     public void save(Resume r) {
@@ -32,23 +37,25 @@ public abstract class AbstractArrayStorage implements Storage {
             if (index < 0) {
                 insert(r, index);
                 size++;
-            }
-            else System.err.println("Such resume already exists in the storage");
-        } else System.err.println("Can't save this resume due to the storage is full");
+            } else throw new AlreadyExistStorageException(r.getUuid());
+        } else throw new StorageException("Storage overflow", r.getUuid());
     }
 
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index >= 0)
             storage[index] = r;
-        else System.err.println("The storage doesn't contain such resume to update");
+        else throw new NotExistStorageException(r.getUuid());
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0)
-            System.arraycopy(storage, index + 1, storage, index, --size - index);
-        else System.err.println("The storage doesn't contain such resume to delete");
+        if (index >= 0) {
+            storage[index] = null;
+            if (index != size - 1)
+                fillDeleted(index);
+            size--;
+        } else throw new NotExistStorageException(uuid);
     }
 
     public Resume[] getAll() {
@@ -62,4 +69,6 @@ public abstract class AbstractArrayStorage implements Storage {
     protected abstract int getIndex(String uuid);
 
     protected abstract void insert(Resume r, int index);
+
+    protected abstract void fillDeleted(int index);
 }

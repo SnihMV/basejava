@@ -21,4 +21,9 @@ public class ArrayStorage extends AbstractArrayStorage {
         index = size;
         storage[index] = r;
     }
+
+    @Override
+    protected void fillDeleted(int index) {
+        storage[index] = storage[size - 1];
+    }
 }
