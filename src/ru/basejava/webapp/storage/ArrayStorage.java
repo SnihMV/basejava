@@ -8,7 +8,7 @@ import ru.basejava.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid()))
                 return i;
@@ -18,8 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insert(Resume r, int index) {
-        index = size;
-        storage[index] = r;
+        storage[size] = r;
     }
 
     @Override
