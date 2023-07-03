@@ -13,10 +13,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    public int size() {
-        return size;
-    }
-
     public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
@@ -30,16 +26,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Integer searchKey) {
-        storage[searchKey] = resume;
-    }
-
-    @Override
     protected void doSave(Resume resume, Integer searchKey) {
         if (isFull())
             throw new StorageException("Storage is full. Can't save new resume", resume.getUuid());
         insert(resume, searchKey);
         size++;
+    }
+
+    @Override
+    protected void doUpdate(Resume resume, Integer searchKey) {
+        storage[searchKey] = resume;
     }
 
     @Override
@@ -50,14 +46,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         size--;
     }
 
-    @Override
-    protected boolean isExist(Integer searchKey) {
-        return searchKey >= 0;
+    public int size() {
+        return size;
     }
 
     @Override
     protected List<Resume> doCopyAll() {
         return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+    }
+
+    @Override
+    protected boolean isExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     public boolean isFull() {
