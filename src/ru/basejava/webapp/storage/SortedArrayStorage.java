@@ -4,6 +4,7 @@ import ru.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
@@ -25,5 +26,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected void fillDeleted(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        return doCopyAll();
     }
 }

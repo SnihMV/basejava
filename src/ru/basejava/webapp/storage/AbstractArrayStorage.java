@@ -4,6 +4,8 @@ import ru.basejava.webapp.exception.*;
 import ru.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
@@ -53,8 +55,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         return searchKey >= 0;
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    @Override
+    protected List<Resume> doCopyAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     public boolean isFull() {
@@ -66,4 +69,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected abstract void insert(Resume r, int index);
 
     protected abstract void fillDeleted(int index);
+
 }

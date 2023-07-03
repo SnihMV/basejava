@@ -6,6 +6,9 @@ import ru.basejava.webapp.exception.AlreadyExistStorageException;
 import ru.basejava.webapp.exception.NotExistStorageException;
 import ru.basejava.webapp.model.Resume;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -25,9 +28,9 @@ public abstract class AbstractStorageTest {
     @Before
     public void init() {
         storage.clear();
-        storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
+        storage.save(RESUME_1);
     }
 
     @Test
@@ -95,12 +98,10 @@ public abstract class AbstractStorageTest {
 
 
     @Test
-    public void getAll() {
-        Resume[] resumes = storage.getAll();
-        assertEquals(3, resumes.length);
-        for (Resume r : resumes) {
-            assertGet(r);
-        }
+    public void getAllSorted() {
+        List<Resume> resumes = storage.getAllSorted();
+        assertEquals(3, resumes.size());
+        assertEquals(resumes, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
     }
 
     private void assertSize(int expectedSize) {
