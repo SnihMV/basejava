@@ -3,12 +3,16 @@ package ru.basejava.webapp.storage;
 import ru.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.function.Function;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
+
     @Override
     protected Integer getSearchKey(String uuid) {
-        return Arrays.binarySearch(storage, 0, size, new Resume(uuid));
+        return Arrays.binarySearch(storage, 0, size, new Resume(uuid, "dummy"), RESUME_COMPARATOR);
     }
 
     @Override

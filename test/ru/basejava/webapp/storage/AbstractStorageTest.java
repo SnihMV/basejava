@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.basejava.webapp.exception.AlreadyExistStorageException;
 import ru.basejava.webapp.exception.NotExistStorageException;
-import ru.basejava.webapp.exception.StorageException;
 import ru.basejava.webapp.model.Resume;
 
 import static org.junit.Assert.*;
@@ -13,11 +12,11 @@ public abstract class AbstractStorageTest {
 
     protected final Storage storage;
     private static final String UUID_1 = "uuid_1";
-    public static final Resume RESUME_1 = new Resume(UUID_1);
+    public static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
     private static final String UUID_2 = "uuid_2";
-    public static final Resume RESUME_2 = new Resume(UUID_2);
+    public static final Resume RESUME_2 = new Resume(UUID_2, "Name2");
     private static final String UUID_3 = "uuid_3";
-    public static final Resume RESUME_3 = new Resume(UUID_3);
+    public static final Resume RESUME_3 = new Resume(UUID_3, "Name3");
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -56,7 +55,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Resume newResume = new Resume();
+        Resume newResume = new Resume("name4");
         storage.save(newResume);
         assertSize(4);
         assertGet(newResume);
@@ -70,7 +69,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_2);
+        Resume newResume = new Resume(UUID_2, "newName");
         storage.update(newResume);
         assertTrue(newResume == storage.get(UUID_2));
         assertSize(3);

@@ -1,9 +1,6 @@
 package ru.basejava.webapp.storage;
 
-import org.junit.Before;
 import org.junit.Test;
-import ru.basejava.webapp.exception.AlreadyExistStorageException;
-import ru.basejava.webapp.exception.NotExistStorageException;
 import ru.basejava.webapp.exception.StorageException;
 import ru.basejava.webapp.model.Resume;
 
@@ -19,11 +16,11 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
     public void saveOverFlow(){
         try {
             for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume("name"+i));
             }
         } catch (Exception e) {
             fail();
         }
-        storage.save(new Resume());
+        storage.save(new Resume("OverFlow"));
     }
 }

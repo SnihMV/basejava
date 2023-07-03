@@ -3,19 +3,19 @@ package ru.basejava.webapp.storage;
 import ru.basejava.webapp.model.Resume;
 import ru.basejava.webapp.exception.*;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<K> implements Storage {
 
-    protected abstract Resume doGet(Object searchKey);
+    protected abstract Resume doGet(K searchKey);
 
-    protected abstract void doUpdate(Resume resume, Object searchKey);
+    protected abstract void doUpdate(Resume resume, K searchKey);
 
-    protected abstract void doSave(Resume resume, Object searchKey);
+    protected abstract void doSave(Resume resume, K searchKey);
 
-    protected abstract void doDelete(Object searchKey);
+    protected abstract void doDelete(K searchKey);
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract boolean isExist(K searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract K getSearchKey(String uuid);
 
     @Override
     public Resume get(String uuid) {
@@ -37,15 +37,15 @@ public abstract class AbstractStorage implements Storage {
         doDelete(getKeyForExisted(uuid));
     }
 
-    private Object getKeyForNotExisted(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private K getKeyForNotExisted(String uuid) {
+        K searchKey = getSearchKey(uuid);
         if (isExist(searchKey))
             throw new AlreadyExistStorageException(uuid);
         return searchKey;
     }
 
-    private Object getKeyForExisted(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private K getKeyForExisted(String uuid) {
+        K searchKey = getSearchKey(uuid);
         if (!isExist(searchKey))
             throw new NotExistStorageException(uuid);
         return searchKey;
