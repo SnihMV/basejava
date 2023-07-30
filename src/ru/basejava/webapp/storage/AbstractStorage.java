@@ -1,11 +1,9 @@
 package ru.basejava.webapp.storage;
 
+import ru.basejava.webapp.exception.AlreadyExistStorageException;
+import ru.basejava.webapp.exception.NotExistStorageException;
 import ru.basejava.webapp.model.Resume;
-import ru.basejava.webapp.exception.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage<K> implements Storage {

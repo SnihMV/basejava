@@ -1,22 +1,29 @@
 package ru.basejava.webapp.model;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ListSection extends Section {
-    private final List<String> items;
+    private final Set<String> items;
 
-    public ListSection(List<String> items) {
+    public ListSection(String... items) {
+        this(new LinkedHashSet<>(Arrays.asList(items)));
+    }
+
+    public ListSection(Set<String> items) {
         Objects.requireNonNull(items);
         this.items = items;
     }
 
-    public List<String> getItems(){
+    public Set<String> getItems(){
         return items;
     }
 
     public void add(String item){
         items.add(item);
+    }
+
+    public void remove(String item) {
+        items.remove(item);
     }
 
     public boolean equals(Object o) {
