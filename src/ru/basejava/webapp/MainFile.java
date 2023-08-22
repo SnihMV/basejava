@@ -12,16 +12,21 @@ import java.util.Arrays;
 
 public class MainFile {
     public static void main(String[] args) {
-        File root = new File("C:\\Users\\SnihMV\\IdeaProjects\\basejava\\src");
-        System.out.println(root.getAbsolutePath());
+        File dir = new File("D:\\");
+        File file = new File("testfile.txt");
+        File f = new File(dir, "testfile.txt");
         try {
-            System.out.println(root.getCanonicalPath());
+            System.out.println(f.createNewFile());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(root.isDirectory());
-        System.out.println(Arrays.toString(root.list()));
-//        readDir(root,0);
+        System.out.println(f.exists());
+        System.out.println(f.getAbsolutePath());
+        try {
+            System.out.println(f.getCanonicalPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void readDir(File dir, int deep) {

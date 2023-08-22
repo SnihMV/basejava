@@ -1,5 +1,6 @@
 package ru.basejava.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
@@ -7,12 +8,12 @@ import java.util.*;
 import static java.util.Arrays.asList;
 import static ru.basejava.webapp.util.DateUtil.of;
 
-public class Organization {
+public class Organization implements Serializable {
     private final Link homePage;
     private final Set<Position> positions;
 
     {
-        positions = new TreeSet<>(Comparator.comparing(p -> p.since));
+        positions = new TreeSet<>(new SinceComparator());
     }
 
     public Organization(String name, String url, Position... positions) {
@@ -53,7 +54,7 @@ public class Organization {
                 '}';
     }
 
-    public static class Position implements Comparable<Position> {
+    public static class Position implements Comparable<Position>, Serializable {
         private final LocalDate since;
         private final LocalDate until;
         private final String title;
@@ -114,4 +115,12 @@ public class Organization {
             return res != 0 ? res : since.compareTo(that.since);
         }
     }
+
+    private static class SinceComparator implements Comparator<Position>, Serializable {
+        @Override
+        public int compare(Position o1, Position o2) {
+            return o1.since.compareTo(o2.since);
+        }
+    }
+
 }
