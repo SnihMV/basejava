@@ -1,10 +1,9 @@
 package ru.basejava.webapp.storage;
 
-import ru.basejava.webapp.exception.*;
+import ru.basejava.webapp.exception.StorageException;
 import ru.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
