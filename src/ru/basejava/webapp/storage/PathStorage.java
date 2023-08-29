@@ -2,8 +2,9 @@ package ru.basejava.webapp.storage;
 
 import ru.basejava.webapp.exception.StorageException;
 import ru.basejava.webapp.model.Resume;
+import ru.basejava.webapp.storage.serializer.StreamSerializer;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,31 +13,41 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
-    protected final Path directory;
+public class PathStorage extends AbstractStorage<Path> {
+    private final Path directory;
+    private final StreamSerializer serializer;
 
-    protected AbstractPathStorage(String dir) {
-        Objects.requireNonNull(dir, "Directory must be not null");
-        this.directory = getValidDir(dir);
+    protected PathStorage(String pathName, StreamSerializer serializer) {
+        Objects.requireNonNull(pathName, "Directory must be not null");
+        this.directory = getDirectory(pathName);
+        this.serializer = serializer;
     }
 
-    private Path getValidDir(String dir) {
-        Path directory = Paths.get(dir);
-        if (!Files.isDirectory(directory))
-            throw new IllegalArgumentException(dir + " is not a directory");
-        if (!Files.isWritable(directory) || !Files.isReadable(directory))
-            throw new IllegalArgumentException(dir + " is not writable/writable");
+    private Path getDirectory(String pathName) {
+        Path directory = Paths.get(pathName);
+        if (Files.exists(directory)) {
+            checkDir(directory);
+        } else {
+            try {
+                Files.createDirectory(directory);
+            } catch (IOException e) {
+                throw new StorageException("Couldn't creat storage directory: " + pathName, e);
+            }
+        }
         return directory;
     }
 
-    protected abstract Resume doRead(Path path) throws IOException;
-
-    protected abstract void doWrite(Path path, Resume resume) throws IOException;
+    private static void checkDir(Path directory) {
+        if (!Files.isDirectory(directory))
+            throw new IllegalArgumentException(directory + " is not a directory");
+        if (!Files.isWritable(directory) || !Files.isReadable(directory))
+            throw new IllegalArgumentException(directory + " is not writable/writable");
+    }
 
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(path);
+            return serializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path read error: " + path, getFileName(path), e);
         }
@@ -55,7 +66,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume resume, Path path) {
         try {
-            doWrite(path, resume);
+            serializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path write error: " + path, getFileName(path), e);
         }

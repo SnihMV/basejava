@@ -6,7 +6,6 @@ import ru.basejava.webapp.exception.AlreadyExistStorageException;
 import ru.basejava.webapp.exception.NotExistStorageException;
 import ru.basejava.webapp.model.*;
 
-import java.io.File;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_DIR = "D:\\Objectstoragetest";
+    protected static final String STORAGE_DIR = "D:\\Objectstoragetest\\test3";
     protected final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -95,7 +94,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test(expected = AlreadyExistStorageException.class)
-    public void saveAlredyExist() {
+    public void saveAlreadyExist() {
         storage.save(R1);
     }
 

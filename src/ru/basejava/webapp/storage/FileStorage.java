@@ -2,38 +2,44 @@ package ru.basejava.webapp.storage;
 
 import ru.basejava.webapp.exception.StorageException;
 import ru.basejava.webapp.model.Resume;
+import ru.basejava.webapp.storage.serializer.StreamSerializer;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
-    protected final File directory;
+public class FileStorage extends AbstractStorage<File> {
+    private final File directory;
+    private final StreamSerializer serializer;
 
-    protected AbstractFileStorage(String dir) {
-        Objects.requireNonNull(dir, "Directory path must be not null");
-        this.directory = getValidDir(dir);
+    public FileStorage(String pathName, StreamSerializer serializer) {
+        Objects.requireNonNull(pathName, "Directory path name must be not null");
+        this.directory = getDirectory(pathName);
+        this.serializer = serializer;
     }
 
-    private File getValidDir(String dir){
-        File directory = new File(dir);
+    private File getDirectory(String pathName) {
+        File directory = new File(pathName);
+        if (directory.exists()) {
+            checkDir(directory);
+        } else if (!directory.mkdir()) {
+            throw new StorageException("Couldn't create storage directory: " + directory.getAbsolutePath());
+        }
+        return directory;
+    }
+
+    private void checkDir(File directory) {
         if (!directory.isDirectory())
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not a directory");
         if (!directory.canRead() || !directory.canWrite())
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
-        return directory;
     }
-
-    protected abstract Resume doRead(File file) throws IOException;
-
-    protected abstract void doWrite(File file, Resume resume) throws IOException;
 
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(file);
+            return serializer.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File read error" + file.getAbsolutePath(), file.getName(), e);
         }
@@ -52,7 +58,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume resume, File file) {
         try {
-            doWrite(file, resume);
+            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("File write error", resume.getUuid(), e);
         }
