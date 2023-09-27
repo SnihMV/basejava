@@ -1,9 +1,15 @@
 package ru.basejava.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.*;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ListSection extends Section {
-    private final Set<String> items;
+    private Set<String> items;
+
+    public ListSection() {
+    }
 
     public ListSection(String... items) {
         this(new LinkedHashSet<>(Arrays.asList(items)));

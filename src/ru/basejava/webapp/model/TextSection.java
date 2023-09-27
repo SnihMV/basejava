@@ -1,9 +1,14 @@
 package ru.basejava.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Objects;
 
 public class TextSection extends Section {
     private String content;
+
+    public TextSection() {
+    }
 
     public TextSection(String content) {
         Objects.requireNonNull(content, "Text content must not be null");
@@ -22,7 +27,7 @@ public class TextSection extends Section {
         if (this == o) return true;
         if (o == null || o.getClass() != this.getClass()) return false;
         TextSection that = (TextSection) o;
-        return content.equals(that.content);
+        return Objects.equals(content, that.content);
     }
 
     public int hashCode() {

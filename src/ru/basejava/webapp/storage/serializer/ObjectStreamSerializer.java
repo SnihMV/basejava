@@ -1,7 +1,6 @@
 package ru.basejava.webapp.storage.serializer;
 
 import ru.basejava.webapp.model.Resume;
-
 import java.io.*;
 
 public class ObjectStreamSerializer implements StreamSerializer {

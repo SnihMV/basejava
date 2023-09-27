@@ -1,11 +1,17 @@
 package ru.basejava.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
-    private final String name;
+    private String name;
     private String url;
+
+    public Link() {
+    }
 
     public Link(String name, String url) {
         Objects.requireNonNull(name, "Organization name must be not null");
@@ -29,8 +35,7 @@ public class Link implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Link that = (Link) o;
-        if (!name.equals(that.name)) return false;
-        return Objects.equals(url, that.url);
+        return Objects.equals(name, that.name) && Objects.equals(url, that.url);
     }
 
     public int hashCode() {

@@ -1,5 +1,10 @@
 package ru.basejava.webapp.model;
 
+import ru.basejava.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -8,12 +13,12 @@ import java.util.*;
 import static java.util.Arrays.asList;
 import static ru.basejava.webapp.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
-    private final Link homePage;
-    private final Set<Position> positions;
+    private Link homePage;
+    private Set<Position> positions = new TreeSet<>(new SinceComparator());
 
-    {
-        positions = new TreeSet<>(new SinceComparator());
+    public Organization() {
     }
 
     public Organization(String name, String url, Position... positions) {
@@ -54,11 +59,17 @@ public class Organization implements Serializable {
                 '}';
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Comparable<Position>, Serializable {
-        private final LocalDate since;
-        private final LocalDate until;
-        private final String title;
-        private final String description;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate since;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate until;
+        private String title;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
@@ -93,15 +104,17 @@ public class Organization implements Serializable {
             return description;
         }
 
+        @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Position that = (Position) o;
-            return title.equals(that.title) && since.equals(that.since);
+            Position position = (Position) o;
+            return Objects.equals(since, position.since) && Objects.equals(until, position.until) && Objects.equals(title, position.title) && Objects.equals(description, position.description);
         }
 
+        @Override
         public int hashCode() {
-            return title.hashCode() * 31 + since.hashCode();
+            return Objects.hash(since, until, title, description);
         }
 
         @Override

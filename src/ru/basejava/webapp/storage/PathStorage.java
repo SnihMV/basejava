@@ -14,8 +14,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
-    private final Path directory;
-    private final StreamSerializer serializer;
+    private Path directory;
+    private StreamSerializer serializer;
+
+    public PathStorage() {
+    }
 
     protected PathStorage(String pathName, StreamSerializer serializer) {
         Objects.requireNonNull(pathName, "Directory must be not null");
