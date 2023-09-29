@@ -32,6 +32,14 @@ public class Organization implements Serializable {
         this.positions.addAll(positions);
     }
 
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public Set<Position> getPositions() {
+        return positions;
+    }
+
     public void addPosition(Position position) {
         positions.add(position);
     }

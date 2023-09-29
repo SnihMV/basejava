@@ -9,6 +9,6 @@ import java.io.OutputStream;
 public interface StreamSerializer {
     void doWrite(Resume resume, OutputStream os) throws IOException;
 
-    Resume doRead(InputStream inputStream) throws IOException;
+    Resume doRead(InputStream is) throws IOException;
 
 }

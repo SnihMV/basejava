@@ -2,14 +2,11 @@ package ru.basejava.webapp.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrganizationSection extends Section {
-    private List<Organization> organizations;
+    private Collection<Organization> organizations;
 
     public OrganizationSection() {
     }
@@ -18,12 +15,13 @@ public class OrganizationSection extends Section {
         this(new ArrayList<>(Arrays.asList(organizations)));
     }
 
-    public OrganizationSection(List<Organization> organizations) {
+    public OrganizationSection(Collection<Organization> organizations) {
         Objects.requireNonNull(organizations, "Organizations must be not null");
+//        this.organizations.addAll(organizations);
         this.organizations = organizations;
     }
 
-    public List<Organization> getOrganizations() {
+    public Collection<Organization> getOrganizations() {
         return organizations;
     }
 

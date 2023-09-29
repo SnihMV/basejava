@@ -8,11 +8,11 @@ import ru.basejava.webapp.model.*;
 
 import java.io.File;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = new File("D:\\PathStorageTest");
@@ -51,7 +51,7 @@ public abstract class AbstractStorageTest {
         R2.addContact(ContactType.SKYPE, "R2_Skype");
         R2.addSection(SectionType.EXPERIENCE, new OrganizationSection(
                 new Organization("OrgName2", "www.org2.su",
-                        new Organization.Position(2005, Month.AUGUST, "R1_Title_1", "R1_descriptor_1"))));
+                        new Organization.Position(2005, Month.AUGUST, 2008, Month.JULY, "R1_Title_1", "R1_descriptor_1"))));
 
     }
 

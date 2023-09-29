@@ -6,25 +6,25 @@ import java.util.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ListSection extends Section {
-    private Set<String> items;
+    private Collection<String> items = new ArrayList<>();
 
     public ListSection() {
     }
 
     public ListSection(String... items) {
-        this(new LinkedHashSet<>(Arrays.asList(items)));
+        this(new ArrayList<>(Arrays.asList(items)));
     }
 
-    public ListSection(Set<String> items) {
+    public ListSection(Collection<String> items) {
         Objects.requireNonNull(items);
         this.items = items;
     }
 
-    public Set<String> getItems(){
+    public Collection<String> getItems() {
         return items;
     }
 
-    public void add(String item){
+    public void add(String item) {
         items.add(item);
     }
 
@@ -39,11 +39,11 @@ public class ListSection extends Section {
         return items.equals(that.items);
     }
 
-    public int hashCode(){
+    public int hashCode() {
         return items.hashCode();
     }
 
-    public String toString(){
+    public String toString() {
         return items.toString();
     }
 }
