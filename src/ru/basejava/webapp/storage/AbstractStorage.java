@@ -4,6 +4,7 @@ import ru.basejava.webapp.exception.AlreadyExistStorageException;
 import ru.basejava.webapp.exception.NotExistStorageException;
 import ru.basejava.webapp.model.Resume;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractStorage<K> implements Storage {
@@ -59,7 +60,7 @@ public abstract class AbstractStorage<K> implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> list = doCopyAll();
-        list.sort(null);
+        Collections.sort(list);
         return list;
     }
 }

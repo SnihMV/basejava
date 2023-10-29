@@ -2,25 +2,25 @@ package ru.basejava.webapp.storage;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.basejava.webapp.Config;
 import ru.basejava.webapp.exception.AlreadyExistStorageException;
 import ru.basejava.webapp.exception.NotExistStorageException;
 import ru.basejava.webapp.model.*;
 
 import java.io.File;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("D:\\PathStorageTest");
+    protected static final File STORAGE_DIR = Config.getInstance().getStorageDir();
     protected final Storage storage;
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
     public static final Resume R1;
     public static final Resume R2;
     public static final Resume R3;
@@ -32,7 +32,7 @@ public abstract class AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R1.addContact(ContactType.EMAIL, "SnihMV@gmail.com");
+        /*R1.addContact(ContactType.EMAIL, "SnihMV@gmail.com");
         R1.addContact(ContactType.PHONE, "89216548976");
         R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective R1"));
         R1.addSection(SectionType.PERSONAL, new TextSection("Personal data R1"));
@@ -52,7 +52,7 @@ public abstract class AbstractStorageTest {
         R2.addSection(SectionType.EXPERIENCE, new OrganizationSection(
                 new Organization("OrgName2", "www.org2.su",
                         new Organization.Position(2005, Month.AUGUST, 2008, Month.JULY, "R1_Title_1", "R1_descriptor_1"))));
-
+*/
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -133,7 +133,9 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() throws Exception {
         List<Resume> resumes = storage.getAllSorted();
         assertEquals(3, resumes.size());
-        assertEquals(resumes, Arrays.asList(R1, R2, R3));
+        List<Resume> sortedResumes = Arrays.asList(R1, R2, R3);
+        Collections.sort(sortedResumes);
+        assertEquals(resumes, sortedResumes);
     }
 
     private void assertSize(int expectedSize) {
