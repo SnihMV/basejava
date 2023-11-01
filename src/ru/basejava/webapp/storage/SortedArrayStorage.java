@@ -27,8 +27,4 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        return doCopyAll();
-    }
 }
