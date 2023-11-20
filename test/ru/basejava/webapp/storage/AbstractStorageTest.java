@@ -8,7 +8,6 @@ import ru.basejava.webapp.model.*;
 import ru.basejava.webapp.util.Config;
 
 import java.io.File;
-import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,26 +34,26 @@ public abstract class AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        /*R1.addContact(ContactType.EMAIL, "SnihMV@gmail.com");
-        R1.addContact(ContactType.PHONE, "89216548976");
-        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective R1"));
-        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data R1"));
-        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("R1_Achievement3", "R1_Achievement2", "R1_Achievement1"));
-        R1.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "Scala"));
-        R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
-                new Organization("OrgName1", "www.org1.ru",
-                        new Organization.Position(2005, Month.AUGUST, 2008, Month.MARCH, "R1_Title_1", "R1_descriptor_1"),
-                        new Organization.Position(2003, Month.SEPTEMBER, 2009, Month.NOVEMBER, "R1_Title_2", null))));
-        R1.addSection(SectionType.EDUCATION, new OrganizationSection(
-                new Organization("College", "www.college.com",
-                        new Organization.Position(1999, Month.SEPTEMBER, 2004, Month.JULY, "Aspirant", "learning"),
-                        new Organization.Position(1994, Month.SEPTEMBER, 1999, Month.JULY, "Student", null)),
-                new Organization("Institute", "www.cypress-institution.net")));
-        R2.addContact(ContactType.GITHUB, "github.com/pupa");
-        R2.addContact(ContactType.SKYPE, "R2_Skype");
-        R2.addSection(SectionType.EXPERIENCE, new OrganizationSection(
-                new Organization("OrgName2", "www.org2.su",
-                        new Organization.Position(2005, Month.AUGUST, 2008, Month.JULY, "R1_Title_1", "R1_descriptor_1"))));*/
+        R1.setContact(ContactType.EMAIL, "SnihMV@gmail.com");
+        R1.setContact(ContactType.PHONE, "89216548976");
+//        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective R1"));
+//        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data R1"));
+//        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("R1_Achievement3", "R1_Achievement2", "R1_Achievement1"));
+//        R1.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "Scala"));
+//        R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+//                new Organization("OrgName1", "www.org1.ru",
+//                        new Organization.Position(2005, Month.AUGUST, 2008, Month.MARCH, "R1_Title_1", "R1_descriptor_1"),
+//                        new Organization.Position(2003, Month.SEPTEMBER, 2009, Month.NOVEMBER, "R1_Title_2", null))));
+//        R1.addSection(SectionType.EDUCATION, new OrganizationSection(
+//                new Organization("College", "www.college.com",
+//                        new Organization.Position(1999, Month.SEPTEMBER, 2004, Month.JULY, "Aspirant", "learning"),
+//                        new Organization.Position(1994, Month.SEPTEMBER, 1999, Month.JULY, "Student", null)),
+//                new Organization("Institute", "www.cypress-institution.net")));
+        R2.setContact(ContactType.GITHUB, "github.com/pupa");
+        R2.setContact(ContactType.SKYPE, "R2_Skype");
+//        R2.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+//                new Organization("OrgName2", "www.org2.su",
+//                        new Organization.Position(2005, Month.AUGUST, 2008, Month.JULY, "R1_Title_1", "R1_descriptor_1"))));
 
     }
 

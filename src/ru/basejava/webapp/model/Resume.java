@@ -50,11 +50,11 @@ private static final long serialVersionUID = 1L;
         return sections;
     }
 
-    public void addContact(ContactType type, String contact) {
+    public void setContact(ContactType type, String contact) {
         contacts.put(type, contact);
     }
 
-    public void addSection(SectionType type, Section section) {
+    public void setSection(SectionType type, Section section) {
         sections.put(type, section);
     }
 
